@@ -32,6 +32,8 @@ export default function ScriptForm({ currentItem, onGenerate, onToneChange }) {
   }, [tone, onToneChange]);
 
   useEffect(() => {
+    // This legacy form intentionally hydrates editable fields when a saved item is loaded.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTopic(currentItem?.request?.topic || currentItem?.topic || '');
     setAudience(currentItem?.request?.audience || '');
     setTone(currentItem?.request?.tone || currentItem?.tone || 'Clear and motivational');
@@ -55,10 +57,11 @@ export default function ScriptForm({ currentItem, onGenerate, onToneChange }) {
 
   return (
     <form className="glass-card form-panel" onSubmit={handleSubmit}>
-      <div className="section-heading">
-        <h2>Video Brief</h2>
-        <p>Shape the angle before the model starts writing.</p>
+      <div className="comic-tab-header">
+          <span className="comic-tab-icon">✍</span>
+        <span>VIDEO BRIEF</span>
       </div>
+      <p className="comic-tab-sub">Shape the angle before the model starts writing.</p>
 
       <label>
         <span>Topic</span>
@@ -134,7 +137,7 @@ export default function ScriptForm({ currentItem, onGenerate, onToneChange }) {
       </label>
 
       <button type="submit" className="primary-button" disabled={busy}>
-        {busy ? 'Generating...' : 'Generate Script'}
+        {busy ? '\u26A1 Generating...' : '\u26A1 Generate Script'}
       </button>
     </form>
   );
