@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { requestJson } from '../api';
 import Sidebar from './Sidebar';
 import ScriptForm from './ScriptForm';
@@ -7,18 +7,14 @@ import OutputPanel from './OutputPanel';
 export default function WorkspaceView({ user, scripts, onScriptsChange, onLogout }) {
   const [currentId, setCurrentId] = useState(scripts[0]?.id || null);
   const currentIdRef = useRef(currentId);
+  currentIdRef.current = currentId;
   const [output, setOutput] = useState('Your script will appear here.');
   const [status, setStatus] = useState('Ready for your next idea.');
   const [thumbnail, setThumbnail] = useState(null);
   const [tone, setTone] = useState('Clear and motivational');
   const [thumbnailStatus, setThumbnailStatus] = useState(null);
-  const [deletingId, setDeletingId] = useState(null);
 
   const currentItem = scripts.find((s) => s.id === currentId) || null;
-
-  useEffect(() => {
-    currentIdRef.current = currentId;
-  }, [currentId]);
 
   function handleLoadScript(id) {
     const item = scripts.find((s) => s.id === id);
@@ -53,14 +49,12 @@ export default function WorkspaceView({ user, scripts, onScriptsChange, onLogout
   }
 
   async function handleDelete(id) {
-    setDeletingId(id);
     try {
       await requestJson('/api/delete-script', {
         method: 'POST',
         body: JSON.stringify({ scriptId: id }),
       });
 
-      setDeletingId(null);
       const next = scripts.filter((s) => s.id !== id);
       onScriptsChange(next);
 
@@ -76,7 +70,6 @@ export default function WorkspaceView({ user, scripts, onScriptsChange, onLogout
         }
       }
     } catch (err) {
-      setDeletingId(null);
       setOutput(err.message || 'Unable to delete.');
       setStatus('Delete failed');
     }
@@ -89,7 +82,6 @@ export default function WorkspaceView({ user, scripts, onScriptsChange, onLogout
           user={user}
           scripts={scripts}
           currentId={currentId}
-          deletingId={deletingId}
           onSelectScript={handleLoadScript}
           onDeleteScript={handleDelete}
           onNewScript={() => {
@@ -104,10 +96,8 @@ export default function WorkspaceView({ user, scripts, onScriptsChange, onLogout
 
         <section className="workspace-main">
           <header className="hero-panel glass-card">
-            <span className="ws-hero-star">★</span>
-            <span className="ws-hero-bolt">⚡</span>
             <div className="hero-text">
-              <p className="eyebrow">⚡ Narrivox AI Writer</p>
+              <p className="eyebrow">Narrivox AI Writer</p>
               <h1>Build scripts with a stronger point of view.</h1>
               <p className="lede">
                 Generate hooks, title angles, full scripts, and visual cues with

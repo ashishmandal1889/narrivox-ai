@@ -31,31 +31,31 @@ export default function OutputPanel({ output, status, tone, thumbnail, thumbnail
     }
   }
 
-  const thumbPlaceholder = thumbnailStatus || 'Ready for your next idea.';
+  const thumbPlaceholder = thumbnailStatus || 'Write a prompt above, then click Generate Thumbnail.';
 
   return (
     <section className="glass-card output-panel" aria-live="polite">
       <div className="output-header">
-        <div className="comic-tab-header">
-          <span className="comic-tab-icon">📜</span>
-          <span>GENERATED SCRIPT</span>
+        <div className="section-heading">
+          <h2>Generated Script</h2>
+          <p>{status}</p>
         </div>
-        <div className="status-pill">{status} | {tone}</div>
+        <div className="status-pill">Tone: {tone}</div>
       </div>
 
       <div className="thumbnail-panel">
         <div className="thumbnail-header">
-          <div className="comic-tab-header compact">
-            <span className="comic-tab-icon">🎨</span>
-            <span>THUMBNAIL</span>
+          <div className="section-heading compact">
+            <h3>Thumbnail</h3>
+            <p>Write a prompt and generate a 16:9 thumbnail image.</p>
           </div>
           <button
             type="button"
-            className="primary-button"
+            className="secondary-button"
             disabled={busy}
             onClick={handleGenerateThumbnail}
           >
-            {busy ? '\u26A1 Generating...' : '\u26A1 Generate'}
+            {busy ? 'Generating...' : 'Generate Thumbnail'}
           </button>
         </div>
 

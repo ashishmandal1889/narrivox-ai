@@ -1,25 +1,6 @@
 import { useState, useMemo } from 'react';
 
-const toneIcons = {
-  'Clear and motivational': '\u{1F4A1}',
-  'Bold and persuasive': '\u{1F525}',
-  'Friendly and educational': '\u{1F4DA}',
-  'High-energy and punchy': '\u26A1',
-  'Satirical and witty': '\u{1F60F}',
-  'Critical and analytical': '\u{1F50D}',
-  'Movie review style': '\u{1F3AC}',
-  'Deep-dive commentary': '\u{1F399}\uFE0F',
-  'Investigative and skeptical': '\u{1F575}\uFE0F',
-  'Cultural criticism': '\u{1F3AD}',
-  'Documentary voice': '\u{1F3A5}',
-  'Comedic roast': '\u{1F525}',
-};
-
-function getToneIcon(tone) {
-  return toneIcons[tone] || '\u{1F4C4}';
-}
-
-export default function Sidebar({ user, scripts, currentId, deletingId, onSelectScript, onDeleteScript, onNewScript, onLogout }) {
+export default function Sidebar({ user, scripts, currentId, onSelectScript, onDeleteScript, onNewScript, onLogout }) {
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
@@ -58,7 +39,7 @@ export default function Sidebar({ user, scripts, currentId, deletingId, onSelect
       </div>
 
       <div className="sidebar-actions">
-        <button type="button" className="secondary-button" onClick={onNewScript}>+ New Script</button>
+        <button type="button" className="secondary-button" onClick={onNewScript}>New Script</button>
         <button type="button" className="ghost-button" onClick={onLogout}>Log Out</button>
       </div>
 
@@ -85,34 +66,26 @@ export default function Sidebar({ user, scripts, currentId, deletingId, onSelect
             filtered.map((item) => (
               <div
                 key={item.id}
-                className={`history-item${item.id === currentId ? ' active' : ''}${item.id === deletingId ? ' deleting' : ''}`}
+                className={`history-item${item.id === currentId ? ' active' : ''}`}
               >
                 <button
                   type="button"
                   className="history-item-button"
                   onClick={() => onSelectScript(item.id)}
-                  disabled={item.id === deletingId}
                 >
-                  <span className="history-item-top">
-                    <span className="history-item-icon">{getToneIcon(item.tone)}</span>
-                    <strong>{item.topic}</strong>
-                  </span>
+                  <strong>{item.topic}</strong>
                   <span className="history-meta">{item.tone} | {item.duration}</span>
                   <span className="history-meta">
-                    {new Date(item.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
+                    {new Date(item.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
                   </span>
                 </button>
-                {item.id === deletingId ? (
-                  <span className="history-delete-spinner" />
-                ) : (
-                  <button
-                    type="button"
-                    className="history-delete-button"
-                    onClick={() => onDeleteScript(item.id)}
-                  >
-                    🗑
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className="history-delete-button"
+                  onClick={() => onDeleteScript(item.id)}
+                >
+                  Delete
+                </button>
               </div>
             ))
           )}

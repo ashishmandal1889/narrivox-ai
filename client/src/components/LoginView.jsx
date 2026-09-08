@@ -31,40 +31,28 @@ export default function LoginView({ onAuthSuccess }) {
 
   return (
     <main className="app-shell">
-      <section className="comic-dashboard">
-        <div className="hero-panel">
-          <div className="logo-frame">
-            <img
-              className="brand-logo"
-              src="./assets/narrivox-logo.jpeg"
-              alt="Narrivox AI logo"
-            />
-            <span className="frame-accent top-left" />
-            <span className="frame-accent bottom-right" />
-          </div>
-          <div className="hero-text">
-            <span className="word word-white">WRITE</span>
-            <span className="word word-yellow">SHARPER</span>
-            <span className="word word-blue">YOUTUBE</span>
-            <span className="word word-red">SCRIPTS</span>
-          </div>
-          <p className="hero-sub">
+      <section className="login-view">
+        <div className="login-copy">
+          <p className="eyebrow">Narrivox AI Studio</p>
+          <img
+            className="brand-logo"
+            src="./assets/narrivox-logo.jpeg"
+            alt="Narrivox AI logo"
+          />
+          <h1>Write sharper YouTube scripts with a branded AI workspace.</h1>
+          <p className="lede">
             Sign in with your email to open your script dashboard, save generation
             history, and shape scripts with tones ranging from satire to criticism
             to movie-review style breakdowns.
           </p>
           <div className="feature-chips">
-            <span className="chip chip-ai">AI powered</span>
-            <span className="chip chip-history">History sidebar</span>
-            <span className="chip chip-email">Email login</span>
+            <span>Gemini powered</span>
+            <span>History sidebar</span>
+            <span>Email login</span>
           </div>
         </div>
 
-        <section className="auth-panel">
-          <div className="auth-header">
-            <span className="auth-header-icon">⚡</span>
-            CONTROL PANEL
-          </div>
+        <section className="glass-card auth-card">
           <div className="auth-tabs" role="tablist" aria-label="Authentication tabs">
             <button
               type="button"
@@ -73,7 +61,7 @@ export default function LoginView({ onAuthSuccess }) {
               aria-selected={mode === 'login'}
               onClick={() => setMode('login')}
             >
-              LOGIN
+              Login
             </button>
             <button
               type="button"
@@ -82,11 +70,23 @@ export default function LoginView({ onAuthSuccess }) {
               aria-selected={mode === 'signup'}
               onClick={() => setMode('signup')}
             >
-              SIGN UP
+              Sign Up
             </button>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
+            {mode === 'login' ? (
+              <div className="section-heading">
+                <h2>Email Login</h2>
+                <p>Sign in to open your saved scripts and continue from any previous session.</p>
+              </div>
+            ) : (
+              <div className="section-heading">
+                <h2>Create Account</h2>
+                <p>Your login details and script history are stored in the app database.</p>
+              </div>
+            )}
+
             <label>
               <span>Email address</span>
               <input
@@ -113,8 +113,8 @@ export default function LoginView({ onAuthSuccess }) {
               />
             </label>
 
-            <button type="submit" className="cta-button" disabled={busy}>
-              {mode === 'login' ? 'ENTER WORKSPACE' : 'CREATE ACCOUNT'}
+            <button type="submit" className="primary-button" disabled={busy}>
+              {mode === 'login' ? 'Enter Workspace' : 'Create Account'}
             </button>
           </form>
 
